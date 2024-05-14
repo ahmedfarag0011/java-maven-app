@@ -1,4 +1,4 @@
-def gv
+dev gv
 pipeline {
     agent any
     tools {
@@ -10,17 +10,19 @@ pipeline {
                 script {
                     gv = load "script.groovy"
                 }
+            }  
+        }      
         stage("build jar"){
             steps {
                 script {
-                    gv.buildJar()
+                    gv.buildjar()
                 }
             }    
         }
         stage("build image"){
             steps {
                 script {
-                    gv.buildImage()
+                    gv.buildimage()
                 }
             }
         }
@@ -32,7 +34,5 @@ pipeline {
                 }
             }
         }
- 
     }
-        
 }
