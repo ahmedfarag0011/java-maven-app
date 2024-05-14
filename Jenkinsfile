@@ -1,35 +1,29 @@
+def gv
 pipeline {
     agent any
     tools {
-        // Specify the Maven tool version
-        maven 'maven-3.9'
+        maven 'Maven'
     }
-    stages {
-        stage("build jar") {
+    stages{
+        stage("build jar"){
             steps {
                 script {
-                    echo "Building the application.."
-                    sh 'mvn package'
+                    gv.buildjar()
+                }
+            }    
+        }
+        stage("build image"){
+            steps {
+                script {
+                    gv.buildimage()
                 }
             }
         }
-        stage("build image") {
-            steps {
+        stage("deploy"){
+           steps {
                 script {
-                    echo "Building the Docker image.."
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        // Use withCredentials block properly
-                        sh 'docker build -t ahmedfarag0011/my-repo:jma-2.0 .'
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh "docker push ahmedfarag0011/my-repo:jma-2.0"
-                    }
-                }
-            }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "Deploying the application.."
+                    gv.deployApp()
+
                 }
             }
         }
