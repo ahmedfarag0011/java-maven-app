@@ -1,9 +1,9 @@
-def buildjar() {
+def buildJar() {
     echo "Building the application.."
     sh 'mvn package'
 }
 
-def buildimage() {
+def buildImage() {
     echo "Building the Docker image.."
     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
         sh 'docker build -t ahmedfarag0011/my-repo:jma-2.0 .'
