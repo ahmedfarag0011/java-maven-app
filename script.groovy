@@ -1,14 +1,19 @@
-def buildApp() {
-    echo 'building the application..'
+def buildjar() {
+    echo "Building the application.."
+    sh 'mvn package'
 }
 
-def testApp() {
-    echo 'testing the application..'
+def buildimage() {
+    echo "Building the Docker image.."
+    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')])
+                    // Use withCredentials block properly
+    sh 'docker build -t ahmedfarag0011/my-repo:jma-2.0 .'
+    sh "echo $PASS | docker login -u $USER --password-stdin"
+    sh "docker push ahmedfarag0011/my-repo:jma-2.0"
 }
 
 def deployApp() {
-    echo 'deploying the application..'
-    echo "deploying version ${params.VERSION}"
+    echo "Deploying the application.."
 }
 
 return this
